@@ -6,8 +6,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Copy shared module first
-COPY ../shared ./shared
+# Copy shared module from parent context
+COPY shared ./shared
 
 # Copy service requirements and install
 COPY hey-hi-video-onlymatt/requirements.txt ./requirements.txt
