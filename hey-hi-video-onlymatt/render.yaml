@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: hey-hi-video-onlymatt
+    runtime: docker
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: ALLOWED_ORIGINS
+        value: https://video.onlymatt.ca,https://onlymatt.ca,https://www.onlymatt.ca
+      - key: APP_NAME
+        value: hey-hi-video-onlymatt
+      - key: APP_VERSION
+        value: hardened-v1
+      - key: LLM_TIMEOUT_CONNECT
+        value: 10
+      - key: LLM_TIMEOUT_READ
+        value: 70
+    healthCheckPath: /healthz
+    plan: free
