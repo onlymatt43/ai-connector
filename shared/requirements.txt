@@ -1,0 +1,2 @@
+# Shared dependencies
+# These are required by the services using shared/

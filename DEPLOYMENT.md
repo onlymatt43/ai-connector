@@ -23,8 +23,8 @@ Créer **3 services Web** sur Render (un par dossier).
 - **Region:** `Oregon (US West)` ou le plus proche
 - **Branch:** `main`
 - **Root Directory:** `hey-hi-coach-onlymatt`
-- **Build Command:** `pip install -r requirements.txt`
-- **Start Command:** `uvicorn app:app --host 0.0.0.0 --port $PORT`
+- **Build Command:** `pip install -r requirements.txt && pip install -r ../shared/requirements.txt`
+- **Start Command:** `cd .. && PYTHONPATH=$PYTHONPATH:$(pwd) uvicorn hey-hi-coach-onlymatt.app:app --host 0.0.0.0 --port $PORT`
 
 **Environment Variables:**
 ```bash
@@ -52,7 +52,8 @@ LLM_TIMEOUT_READ=70
 **Settings:** (identiques au coach, sauf Root Directory)
 - **Name:** `hey-hi-video-onlymatt`
 - **Root Directory:** `hey-hi-video-onlymatt`
-- **Start Command:** `uvicorn app:app --host 0.0.0.0 --port $PORT`
+- **Build Command:** `pip install -r requirements.txt && pip install -r ../shared/requirements.txt`
+- **Start Command:** `cd .. && PYTHONPATH=$PYTHONPATH:$(pwd) uvicorn hey-hi-video-onlymatt.app:app --host 0.0.0.0 --port $PORT`
 
 **Environment Variables:** (identiques, changer APP_NAME)
 ```bash
@@ -70,6 +71,7 @@ APP_NAME=hey-hi-video-onlymatt
 **Settings:**
 - **Name:** `hey-hi-website-builder-onlymatt`
 - **Root Directory:** `hey-hi-website-builder-onlymatt`
+- **Build Command:** `pip install -r requirements.txt`
 - **Start Command:** `uvicorn app:app --host 0.0.0.0 --port $PORT`
 
 **Environment Variables:**

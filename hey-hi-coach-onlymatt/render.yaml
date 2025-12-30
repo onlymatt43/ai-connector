@@ -1,8 +1,11 @@
 services:
   - type: web
     name: hey-hi-coach-onlymatt
-    runtime: docker
+    runtime: python
+    rootDir: hey-hi-coach-onlymatt
     autoDeploy: true
+    buildCommand: pip install -r requirements.txt && pip install -r ../shared/requirements.txt
+    startCommand: cd .. && PYTHONPATH=$PYTHONPATH:$(pwd) uvicorn hey-hi-coach-onlymatt.app:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: OPENAI_API_KEY
         sync: false
@@ -13,7 +16,7 @@ services:
       - key: APP_NAME
         value: hey-hi-coach-onlymatt
       - key: APP_VERSION
-        value: hardened-v1
+        value: v2-resilient
       - key: LLM_TIMEOUT_CONNECT
         value: 10
       - key: LLM_TIMEOUT_READ
