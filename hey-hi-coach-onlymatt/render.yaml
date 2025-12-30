@@ -1,11 +1,10 @@
 services:
   - type: web
     name: hey-hi-coach-onlymatt
-    runtime: python
-    rootDir: hey-hi-coach-onlymatt
+    runtime: docker
+    dockerfilePath: ./hey-hi-coach-onlymatt/Dockerfile
+    dockerContext: .
     autoDeploy: true
-    buildCommand: pip install -r requirements.txt && pip install -r ../shared/requirements.txt
-    startCommand: cd .. && PYTHONPATH=$PYTHONPATH:$(pwd) uvicorn hey-hi-coach-onlymatt.app:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: OPENAI_API_KEY
         sync: false

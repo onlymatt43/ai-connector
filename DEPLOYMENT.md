@@ -19,12 +19,13 @@ Créer **3 services Web** sur Render (un par dossier).
 
 **Settings:**
 - **Name:** `hey-hi-coach-onlymatt`
-- **Environment:** `Python 3`
+- **Environment:** `Docker`
 - **Region:** `Oregon (US West)` ou le plus proche
 - **Branch:** `main`
-- **Root Directory:** `hey-hi-coach-onlymatt`
-- **Build Command:** `pip install -r requirements.txt && pip install -r ../shared/requirements.txt`
-- **Start Command:** `cd .. && PYTHONPATH=$PYTHONPATH:$(pwd) uvicorn hey-hi-coach-onlymatt.app:app --host 0.0.0.0 --port $PORT`
+- **Dockerfile Path:** `./hey-hi-coach-onlymatt/Dockerfile`
+- **Docker Context:** `.` (racine du repo)
+
+**⚠️ Important:** Ne PAS configurer de Root Directory - Docker Context doit être `.` pour accéder à shared/
 
 **Environment Variables:**
 ```bash
@@ -49,11 +50,10 @@ LLM_TIMEOUT_READ=70
 
 #### Service 2: hey-hi-video-onlymatt
 
-**Settings:** (identiques au coach, sauf Root Directory)
+**Settings:** (identiques au coach, sauf paths)
 - **Name:** `hey-hi-video-onlymatt`
-- **Root Directory:** `hey-hi-video-onlymatt`
-- **Build Command:** `pip install -r requirements.txt && pip install -r ../shared/requirements.txt`
-- **Start Command:** `cd .. && PYTHONPATH=$PYTHONPATH:$(pwd) uvicorn hey-hi-video-onlymatt.app:app --host 0.0.0.0 --port $PORT`
+- **Dockerfile Path:** `./hey-hi-video-onlymatt/Dockerfile`
+- **Docker Context:** `.`
 
 **Environment Variables:** (identiques, changer APP_NAME)
 ```bash
