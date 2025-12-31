@@ -1,0 +1,72 @@
+services:
+  # Service 1: Coach API
+  - type: web
+    name: hey-hi-coach-onlymatt
+    runtime: docker
+    dockerfilePath: ./hey-hi-coach-onlymatt/Dockerfile
+    dockerContext: .
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: ALLOWED_ORIGINS
+        value: https://coach.onlymatt.ca,https://onlymatt.ca,https://www.onlymatt.ca
+      - key: APP_NAME
+        value: hey-hi-coach-onlymatt
+      - key: APP_VERSION
+        value: v2-resilient
+      - key: LLM_TIMEOUT_CONNECT
+        value: 10
+      - key: LLM_TIMEOUT_READ
+        value: 70
+    healthCheckPath: /healthz
+    plan: free
+
+  # Service 2: Video API
+  - type: web
+    name: hey-hi-video-onlymatt
+    runtime: docker
+    dockerfilePath: ./hey-hi-video-onlymatt/Dockerfile
+    dockerContext: .
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: ALLOWED_ORIGINS
+        value: https://video.onlymatt.ca,https://onlymatt.ca,https://www.onlymatt.ca
+      - key: APP_NAME
+        value: hey-hi-video-onlymatt
+      - key: APP_VERSION
+        value: v2-resilient
+      - key: LLM_TIMEOUT_CONNECT
+        value: 10
+      - key: LLM_TIMEOUT_READ
+        value: 70
+    healthCheckPath: /healthz
+    plan: free
+
+  # Service 3: Website Builder
+  - type: web
+    name: hey-hi-website-builder-onlymatt
+    runtime: python
+    rootDir: hey-hi-website-builder-onlymatt
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: ALLOWED_ORIGINS
+        value: https://builder.onlymatt.ca,https://onlymatt.ca,https://www.onlymatt.ca
+      - key: APP_NAME
+        value: hey-hi-website-builder-onlymatt
+      - key: APP_VERSION
+        value: v1.0.0
+    healthCheckPath: /healthz
+    plan: free
