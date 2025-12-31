@@ -9,23 +9,63 @@ Ce guide explique comment déployer les services Python et le plugin WordPress.
 - Repository GitHub connecté: https://github.com/onlymatt43/ai-connector
 - Clé API OpenAI
 
-### Configuration par service
+### ⚡ Méthode 1 : Blueprint (Automatique - Recommandé)
 
-Créer **3 services Web** sur Render (un par dossier).
+**Déploie les 3 services d'un coup via le fichier `render.yaml` à la racine :**
+
+1. Va sur [Render Dashboard](https://dashboard.render.com)
+2. **New +** → **Blueprint**
+3. Connecte le repo : `onlymatt43/ai-connector`
+4. Render détecte automatiquement `render.yaml`
+5. Vérifie que les 3 services sont listés
+6. Ajoute ton `OPENAI_API_KEY` pour chaque service
+7. Clique **"Apply"**
+
+✅ **Avantages :** Configuration automatique, Docker activé, shared/ accessible
+
+---
+
+### 🔧 Méthode 2 : Création Manuelle (Dashboard)
+
+**Si tu as déjà créé les services manuellement, suis ces étapes :**
+
+#### Corriger un service existant (Python → Docker)
+
+Si ton service a l'erreur `ModuleNotFoundError: No module named 'shared'` :
+
+1. Va sur le service dans le Dashboard
+2. **Settings** → **Build & Deploy**
+3. **Change ces paramètres :**
+   - **Runtime** : `Python` → `Docker`
+   - **Dockerfile Path** : `./hey-hi-coach-onlymatt/Dockerfile`
+   - **Docker Build Context Directory** : `.` (un point = racine)
+   - **Root Directory** : ⚠️ **SUPPRIME-LE** (laisse vide)
+4. **Save Changes**
+5. **Manual Deploy** → **Deploy latest commit**
+
+Répète pour `hey-hi-video-onlymatt`.
+
+---
+
+### Configuration par service
 
 ---
 
 #### Service 1: hey-hi-coach-onlymatt
 
-**Settings:**
+**Settings (si création manuelle) :**
 - **Name:** `hey-hi-coach-onlymatt`
-- **Environment:** `Docker`
+- **Runtime:** `Docker` ⚠️ **PAS Python!**
 - **Region:** `Oregon (US West)` ou le plus proche
 - **Branch:** `main`
 - **Dockerfile Path:** `./hey-hi-coach-onlymatt/Dockerfile`
-- **Docker Context:** `.` (racine du repo)
+- **Docker Build Context Directory:** `.` (point = racine du repo)
+- **Root Directory:** ⚠️ **LAISSER VIDE** (ne pas configurer)
 
-**⚠️ Important:** Ne PAS configurer de Root Directory - Docker Context doit être `.` pour accéder à shared/
+**⚠️ Critiques pour shared/ :**
+- Docker Context DOIT être `.` (racine)
+- Root Directory DOIT être vide
+- Runtime DOIT être Docker (pas Python)
 
 **Environment Variables:**
 ```bash
@@ -50,10 +90,12 @@ LLM_TIMEOUT_READ=70
 
 #### Service 2: hey-hi-video-onlymatt
 
-**Settings:** (identiques au coach, sauf paths)
+**Settings :** (identiques au coach, sauf APP_NAME)
 - **Name:** `hey-hi-video-onlymatt`
+- **Runtime:** `Docker`
 - **Dockerfile Path:** `./hey-hi-video-onlymatt/Dockerfile`
-- **Docker Context:** `.`
+- **Docker Build Context Directory:** `.`
+- **Root Directory:** ⚠️ **LAISSER VIDE**
 
 **Environment Variables:** (identiques, changer APP_NAME)
 ```bash
@@ -66,8 +108,9 @@ APP_NAME=hey-hi-video-onlymatt
 
 ---
 
-#### Service 3: hey-hi-website-builder-onlymatt
-
+#### Servi (Python runtime - pas Docker) :**
+- **Name:** `hey-hi-website-builder-onlymatt`
+- **Runtime:** `Python` ✅ (pas Docker, ce service n'utilise pas shared/)
 **Settings:**
 - **Name:** `hey-hi-website-builder-onlymatt`
 - **Root Directory:** `hey-hi-website-builder-onlymatt`
